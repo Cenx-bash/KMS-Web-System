@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KnowledgeBase</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-brain"></i>
+                <span>KnowledgeBase </span>
+            </div>
+            <div class="nav-menu">
+                <a href="#" class="nav-link active">Dashboard</a>
+                <a href="#" class="nav-link">Articles</a>
+                <a href="#" class="nav-link">Categories</a>
+                <a href="#" class="nav-link">Users</a>
+                <div class="nav-user">
+                    <img src="https://ui-avatars.com/api/?name=Admin+User&background=0D8ABC&color=fff" alt="User">
+                    <span>Admin</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-search">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Search knowledge base...">
+            </div>
+            <div class="sidebar-menu">
+                <h3>Categories</h3>
+                <ul id="categoriesList">
+                    <!-- Categories will be populated by JavaScript -->
+                </ul>
+            </div>
+            <div class="sidebar-stats">
+                <h3>Statistics</h3>
+                <div class="stat-item">
+                    <span class="stat-value" id="totalArticles">0</span>
+                    <span class="stat-label">Articles</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" id="totalCategories">0</span>
+                    <span class="stat-label">Categories</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" id="totalAuthors">0</span>
+                    <span class="stat-label">Authors</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Content Area -->
+        <main class="content">
+            <div class="content-header">
+                <h1>Knowledge Base</h1>
+                <button class="btn btn-primary" id="addArticleBtn">
+                    <i class="fas fa-plus"></i> New Article
+                </button>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-cards">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="statsTotalArticles">0</h3>
+                        <p>Total Articles</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="statsMonthlyViews">0</h3>
+                        <p>Monthly Views</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="statsActiveAuthors">0</h3>
+                        <p>Active Authors</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="statsSatisfaction">0%</h3>
+                        <p>Satisfaction Rate</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Articles Table -->
+            <div class="content-card">
+                <div class="card-header">
+                    <h2>Recent Articles</h2>
+                    <div class="card-actions">
+                        <button class="btn btn-outline" id="filterBtn">
+                            <i class="fas fa-filter"></i> Filter
+                        </button>
+                        <button class="btn btn-outline" id="exportBtn">
+                            <i class="fas fa-download"></i> Export
+                        </button>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Category</th>
+                                <th>Author</th>
+                                <th>Last Updated</th>
+                                <th>Views</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="articlesTableBody">
+                            <!-- Articles will be loaded here via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="table-footer">
+                    <div class="pagination">
+                        <button class="pagination-btn" id="prevPageBtn" disabled>
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <span class="pagination-info" id="paginationInfo">Page 1 of 1</span>
+                        <button class="pagination-btn" id="nextPageBtn">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Article Modal -->
+    <div class="modal" id="addArticleModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Create New Article</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="articleForm">
+                    <div class="form-group">
+                        <label for="articleTitle">Title</label>
+                        <input type="text" id="articleTitle" placeholder="Enter article title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="articleCategory">Category</label>
+                        <select id="articleCategory" required>
+                            <option value="">Select a category</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="articleContent">Content</label>
+                        <textarea id="articleContent" rows="10" placeholder="Write your article content here..." required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="articleTags">Tags</label>
+                        <input type="text" id="articleTags" placeholder="Add tags (comma separated)">
+                    </div>
+                    <div class="form-group">
+                        <label for="articleStatus">Status</label>
+                        <select id="articleStatus">
+                            <option value="draft">Draft</option>
+                            <option value="published">Published</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline" id="cancelArticleBtn">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="saveArticleBtn">Save Article</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Article Modal -->
+    <div class="modal" id="viewArticleModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="viewArticleTitle">Article Title</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="article-meta">
+                    <span><strong>Category:</strong> <span id="viewArticleCategory"></span></span>
+                    <span><strong>Author:</strong> <span id="viewArticleAuthor"></span></span>
+                    <span><strong>Last Updated:</strong> <span id="viewArticleDate"></span></span>
+                    <span><strong>Views:</strong> <span id="viewArticleViews"></span></span>
+                </div>
+                <div class="article-content" id="viewArticleContent">
+                    <!-- Article content will be displayed here -->
+                </div>
+                <div class="article-tags" id="viewArticleTags">
+                    <!-- Tags will be displayed here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <div class="toast-content">
+            <i class="fas fa-check-circle toast-icon"></i>
+            <div class="toast-message">Operation completed successfully!</div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
